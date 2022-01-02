@@ -1,34 +1,14 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
-
+import { createContext, useContext, useReducer } from "react";
 import { cartReducer } from "./Reducers";
-import axios from "axios";
 /* import products from "./data/products"; */
-
+/* 36:26 --> Los datos deben ser aquí estáticos 
+posiblemente por eso tuvistes tantos problemas */
 const Cart = createContext();
-
 const Context = ({ children }) => {
-  const [products, setProducts] = useState([]);
-
   const [state, dispatch] = useReducer(cartReducer, {
+    products: [],
     cart: [],
-    products: products,
   });
-
-  useEffect(() => {
-    axios
-      .get("/api/products")
-      .then((res) => {
-        setProducts(res.data);
-        state.products = res.data;
-      })
-      .catch((err) => console.log(err));
-  }, [state]);
 
   return <Cart.Provider value={{ state, dispatch }}>{children}</Cart.Provider>;
 };
