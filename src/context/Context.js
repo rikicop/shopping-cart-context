@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import { cartReducer } from "./Reducers";
+import { cartReducer, prdReducer } from "./Reducers";
 /* import products from "./data/products"; */
 /* 36:26 --> Los datos deben ser aquí estáticos 
 posiblemente por eso tuvistes tantos problemas */
@@ -10,7 +10,19 @@ const Context = ({ children }) => {
     cart: [],
   });
 
-  return <Cart.Provider value={{ state, dispatch }}>{children}</Cart.Provider>;
+  //prd means product
+  const [prdState, prdDispatch] = useReducer(prdReducer, {
+    byStock: false,
+    byFastDelivery: false,
+    byRating: 0,
+    searchQuery: "",
+  });
+
+  return (
+    <Cart.Provider value={{ state, dispatch, prdState, prdDispatch }}>
+      {children}
+    </Cart.Provider>
+  );
 };
 
 export default Context;

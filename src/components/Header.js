@@ -17,6 +17,7 @@ function Header() {
   const {
     state: { cart },
     dispatch,
+    prdDispatch,
   } = CartState();
 
   return (
@@ -31,12 +32,19 @@ function Header() {
             style={{ width: 500 }}
             placeholder="Search Product"
             className="mr-sm-2"
+            onChange={(e) =>
+              prdDispatch({
+                type: "FILTER_BY_SEARCH",
+                payload: e.target.value,
+              })
+            }
           />
         </Navbar.Text>
         <Nav>
           <Dropdown style={{ align: "true" }}>
             <Dropdown.Toggle variant="success">
               <FaShoppingCart color="white" fontSize="25px" />
+              {/* Cantidad de Elementos en Cart */}
               <Badge bg="none">{cart.length}</Badge>
             </Dropdown.Toggle>
             <Dropdown.Menu
@@ -53,7 +61,7 @@ function Header() {
                       />
                       <div className="cartItemDetail">
                         <span>{prod.name}</span>
-                        <span>₹ {prod.price.split(".")[0]}</span>
+                        <span>$ {prod.price.split(".")[0]}</span>
                       </div>
                       <AiFillDelete
                         fontSize="20px"
